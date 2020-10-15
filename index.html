@@ -8,6 +8,11 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     />
+    <!-- Font Awesome Link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <title>Weather Dashboard</title>
   </head>
   <body>
@@ -16,11 +21,26 @@
     </nav>
     <div class="container-fluid">
       <div class="row">
+        <!-- City Search Section -->
         <section class="col-md-4 pl-0">
           <div class="card bg-light">
-            <div class="card-body">This is some text within a card body.</div>
+            <div class="card-body">
+              <h4>Search for a City:</h4>
+              <div class="input-group mb-3">
+                <input id="searchTerm" type="text" class="form-control" />
+                <button id="searchBtn" class="btn btn-primary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-action">
+                  Cras justo odio
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
+        <!-- Weather info section -->
         <section class="col-md-8">
           <div class="card mt-4">
             <div class="card-body">This is some text within a card body.</div>
