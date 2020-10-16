@@ -11,6 +11,9 @@ $(document).ready(function () {
     event.preventDefault();
     console.log("search button clicked");
 
+    // Empty any previous weather info content
+    $("#weatherInfo").empty();
+
     city = $("#searchTerm").val().trim();
     console.log(city);
 
@@ -22,51 +25,90 @@ $(document).ready(function () {
     // Call liveWeather function to pull current weather info and append to HTML
     liveWeather();
 
-    function liveWeather() {
-      var queryURL =
-        "https://api.openweathermap.org/data/2.5/weather?q=" +
-        city +
-        "&appid=" +
-        APIKey;
-      $.ajax({
-        url: queryURL,
-        method: "GET",
-      }).then(function (response) {
-        console.log(response);
-        // Getting and converting the temp to Fahrenheit
-        var tempF = (response.main.temp - 273.15) * 1.8 + 32;
-
-        var div1 = $("<div/>").addClass("card mt-4");
-        var div2 = $("<div/>")
-          .addClass("card-body")
-          .attr("id", "currentWeather");
-        var h5 = $("<h5/>")
-          .text(response.name + " " + "(" + date + ")")
-          .addClass("font-weight-bold");
-        var img1 = $("<img/>").attr(
-          "src",
-          "https://openweathermap.org/img/w/" +
-            response.weather[0].icon +
-            ".png"
-        );
-        var p1 = $("<p/>").text("Temperature: " + tempF.toFixed(2) + " °F");
-        var p2 = $("<p/>");
-        var p3 = $("<p/>");
-        var p4 = $("<p/>");
-
-        $("#weatherInfo").prepend(div1);
-        div1.append(div2);
-        div2.append(h5);
-        h5.append(img1);
-        div2.append(p1, p2, p3, p4);
-      });
-    }
-
     // fiveDay(currentCity) placeholder
   });
 
   // Function to get and display live weather
-  function liveWeather() {}
+  function liveWeather() {
+    var queryURL =
+      "https://api.openweathermap.org/data/2.5/weather?q=" +
+      city +
+      "&appid=" +
+      APIKey;
+    $.ajax({
+      url: queryURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+      // Getting and converting the temp to Fahrenheit
+      var tempF = (response.main.temp - 273.15) * 1.8 + 32;
+      var lat = response.coord.lat;
+      var lon = response.coord.lon;
+
+      // Creating HTML elements to populate the weatherInfo section
+      var div1 = $("<div/>").addClass("card mt-4");
+      var div2 = $("<div/>").addClass("card-body").attr("id", "currentWeather");
+      var h5 = $("<h5/>")
+        .text(response.name + " " + "(" + date + ")")
+        .addClass("font-weight-bold");
+      var img1 = $("<img/>").attr(
+        "src",
+        "https://openweathermap.org/img/w/" + response.weather[0].icon + ".png"
+      );
+      var p1 = $("<p/>").text("Temperature: " + tempF.toFixed(2) + " °F");
+      var p2 = $("<p/>").text("Humidity: " + response.main.humidity + " %");
+      var p3 = $("<p/>").text("Wind Speed: " + response.wind.speed + " MPH");
+
+      // Appending elements to display the current weather info
+      $("#weatherInfo").prepend(div1);
+      div1.append(div2);
+      div2.append(h5);
+      h5.append(img1);
+      div2.append(p1, p2, p3);
+
+      // AJAX call for the UV Index
+      var queryURL2 =
+        "http://api.openweathermap.org/data/2.5/uvi?lat=" +
+        lat +
+        "&lon=" +
+        lon +
+        "&appid=" +
+        APIKey;
+      $.ajax({
+        url: queryURL2,
+        method: "GET",
+      }).then(function (response) {
+        console.log(response);
+
+        // Creating HTML elements to hold the UV Index
+        var p4 = $("<p/>").text("UV Index: ");
+        var span = $("<span/>").text(response.value).attr("id", "uvIndex");
+        $("#uvIndex").css("color", "white");
+
+        // Appending elements to display the current UV Index
+        div2.append(p4);
+        p4.append(span);
+
+        // If statement to determine color of UV Index background and apply misc styling
+        if (response.value < 3) {
+          $("#uvIndex").css("background-color", "green");
+          $("#uvIndex").css("color", "white");
+          $("#uvIndex").css("padding", "5");
+          document.getElementById("uvIndex").style.borderRadius = "5px";
+        } else if (response.value >= 3 && response.value < 8) {
+          $("#uvIndex").css("background-color", "orange");
+          $("#uvIndex").css("color", "white");
+          $("#uvIndex").css("padding", "5");
+          document.getElementById("uvIndex").style.borderRadius = "5px";
+        } else {
+          $("#uvIndex").css("background-color", "red");
+          $("#uvIndex").css("color", "white");
+          $("#uvIndex").css("padding", "5");
+          document.getElementById("uvIndex").style.borderRadius = "5px";
+        }
+      });
+    });
+  }
 
   // Function to get and display 5 day forecast
   function fiveDay() {}
