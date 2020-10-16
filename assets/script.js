@@ -83,28 +83,23 @@ $(document).ready(function () {
         // Creating HTML elements to hold the UV Index
         var p4 = $("<p/>").text("UV Index: ");
         var span = $("<span/>").text(response.value).attr("id", "uvIndex");
-        $("#uvIndex").css("color", "white");
 
         // Appending elements to display the current UV Index
         div2.append(p4);
         p4.append(span);
 
-        // If statement to determine color of UV Index background and apply misc styling
+        // Styling applied to all UV Index numbers
+        $("#uvIndex").css("color", "white");
+        $("#uvIndex").css("padding", "5");
+        document.getElementById("uvIndex").style.borderRadius = "5px";
+
+        // If statement to determine and change the color of UV Index background (low, moderate, severe)
         if (response.value < 3) {
           $("#uvIndex").css("background-color", "green");
-          $("#uvIndex").css("color", "white");
-          $("#uvIndex").css("padding", "5");
-          document.getElementById("uvIndex").style.borderRadius = "5px";
         } else if (response.value >= 3 && response.value < 8) {
           $("#uvIndex").css("background-color", "orange");
-          $("#uvIndex").css("color", "white");
-          $("#uvIndex").css("padding", "5");
-          document.getElementById("uvIndex").style.borderRadius = "5px";
         } else {
           $("#uvIndex").css("background-color", "red");
-          $("#uvIndex").css("color", "white");
-          $("#uvIndex").css("padding", "5");
-          document.getElementById("uvIndex").style.borderRadius = "5px";
         }
       });
     });
