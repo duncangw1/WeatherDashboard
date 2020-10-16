@@ -25,7 +25,8 @@ $(document).ready(function () {
     // Call liveWeather function to pull current weather info and append to HTML
     liveWeather();
 
-    // fiveDay(currentCity) placeholder
+    // Call fiveDay function to pull 5 day forecast info and append to HTML
+    fiveDay();
   });
 
   // Function to get and display live weather
@@ -46,8 +47,8 @@ $(document).ready(function () {
       var lon = response.coord.lon;
 
       // Creating HTML elements to populate the weatherInfo section
-      var div1 = $("<div/>").addClass("card mt-4");
-      var div2 = $("<div/>").addClass("card-body").attr("id", "currentWeather");
+      var div1 = $("<div/>").addClass("card mt-4").attr("id", "currentWeather");
+      var div2 = $("<div/>").addClass("card-body");
       var h5 = $("<h5/>")
         .text(response.name + " " + "(" + date + ")")
         .addClass("font-weight-bold");
@@ -106,7 +107,55 @@ $(document).ready(function () {
   }
 
   // Function to get and display 5 day forecast
-  function fiveDay() {}
+  function fiveDay() {
+    var queryURL =
+      "https://api.openweathermap.org/data/2.5/forecast?q=" +
+      city +
+      "&appid=" +
+      APIKey;
+    $.ajax({
+      url: queryURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+      var dayCount = 1;
+
+      // Creating HTML elements to hold the 5 day forecast
+      var div1 = $("<div/>").addClass("mt-4");
+      var div2 = $("<div/>").attr("id", "forecastTitle");
+      var h5 = $("<h5/>").text("5 Day Forecast:");
+      var div3 = $("<div/>")
+        .addClass("d-flex flex-row flex-wrap justify-content-center text-white")
+        .attr("id", "forecastWeather");
+
+      // Appending items to HTML
+      $("#weatherInfo").append(div1);
+      div1.append(div2);
+      div2.append(h5);
+      div2.append(div3);
+
+      // For loop to create the forecast for each of the 5 days
+      for (var i = 0; i < response.list.length; i++) {
+        // Using time as a unique identifier for each day returned in the array
+        var dayIdentifier = response.list[i].dt_txt.split(" ")[1];
+        // Pulling forecast info for each day at 12:00pm
+        if (dayIdentifier === "12:00:00") {
+          // Adding to the date for each day in the future
+          var daysDate = moment().add(dayCount, "days").format("L");
+          // Creating HTML elements to fill in each day's forecast
+          var div4 = $("<div/>").addClass("card bg-primary mx-2 mb-3");
+          var div5 = $("<div/>").addClass("card-body");
+          var p1 = $("<p/>").addClass("font-weight-bold").text(daysDate);
+          // Appending each day's forecast to a card
+          div3.append(div4);
+          div4.append(div5);
+          div5.append(p1);
+          // Increasing dayCount so the date always increases by one day
+          dayCount++;
+        }
+      }
+    });
+  }
 
   // Function to show previously searched cities
   function previousSearches() {}
