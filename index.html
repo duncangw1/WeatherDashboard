@@ -16,9 +16,11 @@
     <title>Weather Dashboard</title>
   </head>
   <body>
+    <!-- Navbar holding page title -->
     <nav class="navbar navbar-dark bg-dark d-flex justify-content-center">
       <h1 class="navbar-text text-white">Weather Dashboard</h1>
     </nav>
+    <!-- Setting fluid container for main document elements -->
     <div class="container-fluid">
       <div class="row">
         <!-- City Search Section -->
@@ -32,71 +34,13 @@
                   <i class="fa fa-search"></i>
                 </button>
               </div>
-              <ul class="list-group cityUL">
-                <!-- <li
-                  class="list-group-item list-group-item-action cityListItem"
-                  style="cursor: pointer"
-                >
-                  Test City
-                </li> -->
-              </ul>
+              <!-- List that holds city search history -->
+              <ul class="list-group cityUL"></ul>
             </div>
           </div>
         </section>
         <!-- Weather info section -->
-        <section class="col-md-8" id="weatherInfo">
-          <!-- 5 Day Forecast section -->
-          <!-- <div class="mt-4">
-            <div id="forecastTitle"> -->
-          <!-- <h5>5-Day Forecast:</h5>
-              <div
-                class="d-flex flex-row flex-wrap justify-content-center text-white"
-                id="forecastWeather"
-              >
-                <div class="card bg-primary mx-2 mb-3">
-                  <div class="card-body">
-                    <p class="font-weight-bold">10/15/2020</p>
-                    <p>icon</p>
-                    <p>Temp: 86.84 F</p>
-                    <p>Humidity: 43%</p>
-                  </div>
-                </div>
-                <div class="card bg-primary mx-2 mb-3">
-                  <div class="card-body">
-                    <p class="font-weight-bold">10/15/2020</p>
-                    <p>icon</p>
-                    <p>Temp: 86.84 F</p>
-                    <p>Humidity: 43%</p>
-                  </div>
-                </div>
-                <div class="card bg-primary mx-2 mb-3">
-                  <div class="card-body">
-                    <p class="font-weight-bold">10/15/2020</p>
-                    <p>icon</p>
-                    <p>Temp: 86.84 F</p>
-                    <p>Humidity: 43%</p>
-                  </div>
-                </div>
-                <div class="card bg-primary mx-2 mb-3">
-                  <div class="card-body">
-                    <p class="font-weight-bold">10/15/2020</p>
-                    <p>icon</p>
-                    <p>Temp: 86.84 F</p>
-                    <p>Humidity: 43%</p>
-                  </div>
-                </div>
-                <div class="card bg-primary mx-2 mb-3">
-                  <div class="card-body">
-                    <p class="font-weight-bold">10/15/2020</p>
-                    <p>icon</p>
-                    <p>Temp: 86.84 F</p>
-                    <p>Humidity: 43%</p>
-                  </div>
-                </div>
-              </div> -->
-          <!-- </div>
-          </div> -->
-        </section>
+        <section class="col-md-8" id="weatherInfo"></section>
       </div>
     </div>
     <!-- jQuery link -->
