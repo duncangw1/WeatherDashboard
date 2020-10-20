@@ -6,13 +6,13 @@ $(document).ready(function () {
   console.log("current local storage: ", cityHistory);
   var date = moment().format("L");
 
+  // Write previous city searches to the page (if any)
+  previousSearches();
+
   // Event listener for submit button click to save city to local storage and display current weather and five day forecast
   $("#searchBtn").on("click", function (event) {
     event.preventDefault();
     console.log("search button clicked");
-
-    // Empty any previous weather info content
-    $("#weatherInfo").empty();
 
     city = $("#searchTerm").val().trim();
     console.log(city);
@@ -27,10 +27,24 @@ $(document).ready(function () {
 
     // Call fiveDay function to pull 5 day forecast info and append to HTML
     fiveDay();
+
+    // previousSearches function placeholder
+    previousSearches();
+  });
+
+  // Event listener for pressing the enter button
+  $("#searchTerm").keypress(function (e) {
+    if (e.which == 13) {
+      //Trigger search button click event
+      $("#searchBtn").click();
+    }
   });
 
   // Function to get and display live weather
   function liveWeather() {
+    // Empty any previous weather info content
+    $("#weatherInfo").empty();
+
     var queryURL =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       city +
@@ -176,5 +190,24 @@ $(document).ready(function () {
   }
 
   // Function to show previously searched cities
-  function previousSearches() {}
+  function previousSearches() {
+    // Erase previous searches
+    $(".cityUL").empty();
+    // For loop to go through each city in the array and create a styled list item
+    for (var i = 0; i < cityHistory.length; i++) {
+      var newListItem = $("<li/>")
+        .addClass("list-group-item list-group-item-action cityListItem")
+        .css("cursor", "pointer")
+        .text(cityHistory[i]);
+      // Event listener for clicking on a list item
+      newListItem.on("click", function () {
+        console.log($(this).text());
+        city = $(this).text();
+        liveWeather();
+        fiveDay();
+      });
+      // Append new items to the cityUL
+      $(".cityUL").append(newListItem);
+    }
+  }
 });
