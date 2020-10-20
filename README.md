@@ -19,22 +19,22 @@ This README has been generated to accompany the completed Weather Dashboard. The
 ## Screenshots
 
 Landing Page
-<img src="" alt="Landing Page">
+<img src="assets/images/LandingPage.png" alt="Landing Page">
 
 ---
 
 Example of City Search
-<img src="" alt="Example of City Search">
+<img src="assets/images/ExampleOfCitySearch.png" alt="Example of City Search">
 
 ---
 
 Displaying City Search History
-<img src="" alt="Displaying City Search History">
+<img src="assets/images/DisplayingCitySearchHistory.png" alt="Displaying City Search History">
 
 ---
 
 Clicking a City within Search History
-<img src="" alt="Clicking a City within Search History">
+<img src="assets/images/ClickingACityWithinHistory.png" alt="Clicking a City within Search History">
 
 ---
 
