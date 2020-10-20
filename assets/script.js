@@ -125,7 +125,7 @@ $(document).ready(function () {
       var div2 = $("<div/>").attr("id", "forecastTitle");
       var h5 = $("<h5/>").text("5 Day Forecast:");
       var div3 = $("<div/>")
-        .addClass("d-flex flex-row flex-wrap justify-content-center text-white")
+        .addClass("d-flex flex-row flex-wrap justify-content-start text-white")
         .attr("id", "forecastWeather");
 
       // Appending items to HTML
@@ -138,18 +138,36 @@ $(document).ready(function () {
       for (var i = 0; i < response.list.length; i++) {
         // Using time as a unique identifier for each day returned in the array
         var dayIdentifier = response.list[i].dt_txt.split(" ")[1];
+
         // Pulling forecast info for each day at 12:00pm
         if (dayIdentifier === "12:00:00") {
-          // Adding to the date for each day in the future
+          // Getting the date for each day
           var daysDate = moment().add(dayCount, "days").format("L");
+          // Getting and converting temperature to Fahrenheit
+          var tempF = (response.list[i].main.temp - 273.15) * 1.8 + 32;
+
           // Creating HTML elements to fill in each day's forecast
-          var div4 = $("<div/>").addClass("card bg-primary mx-2 mb-3");
-          var div5 = $("<div/>").addClass("card-body");
+          var div4 = $("<div/>").addClass("card bg-primary mx-1 mb-3");
+          var div5 = $("<div/>").addClass("card-body p-3");
           var p1 = $("<p/>").addClass("font-weight-bold").text(daysDate);
+          var img1 = $("<img/>").attr(
+            "src",
+            "https://api.openweathermap.org/img/w/" +
+              response.list[i].weather[0].icon +
+              ".png"
+          );
+          var p2 = $("<p/>")
+            .addClass("small")
+            .text("Temp: " + tempF.toFixed(2) + " °F");
+          var p3 = $("<p/>")
+            .addClass("small")
+            .text("Humidity: " + response.list[i].main.humidity + "%");
+
           // Appending each day's forecast to a card
           div3.append(div4);
           div4.append(div5);
-          div5.append(p1);
+          div5.append(p1, img1, p2, p3);
+
           // Increasing dayCount so the date always increases by one day
           dayCount++;
         }
