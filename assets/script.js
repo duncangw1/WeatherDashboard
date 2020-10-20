@@ -87,7 +87,7 @@ $(document).ready(function () {
 
       // AJAX call for the current UV Index
       var queryURL2 =
-        "http://api.openweathermap.org/data/2.5/uvi?lat=" +
+        "https://api.openweathermap.org/data/2.5/uvi?lat=" +
         lat +
         "&lon=" +
         lon +
