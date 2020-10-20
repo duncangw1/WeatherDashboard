@@ -1,26 +1,28 @@
 // Setting document ready
 $(document).ready(function () {
+  // Global variables
   var city = "";
   var APIKey = "ad2d83a81ccc7cf2d5da144993f77678";
+
+  // Array to hold city search history stored in local storage
   var cityHistory = JSON.parse(localStorage.getItem("cities")) || [];
-  console.log("current local storage: ", cityHistory);
+
+  // Getting today's date
   var date = moment().format("L");
 
   // Write previous city searches to the page (if any)
   previousSearches();
 
-  // Event listener for submit button click to save city to local storage and display current weather and five day forecast
+  // Event listener for submit button. Click to save city to local storage and display current weather and five day forecast and add city to the city history list
   $("#searchBtn").on("click", function (event) {
     event.preventDefault();
-    console.log("search button clicked");
 
+    // Getting user's input and setting it to the city variable
     city = $("#searchTerm").val().trim();
-    console.log(city);
 
     // Adding city to the cityHistory array in local storage
     cityHistory.push(city);
     localStorage.setItem("cities", JSON.stringify(cityHistory));
-    console.log("new local storage: ", cityHistory);
 
     // Call liveWeather function to pull current weather info and append to HTML
     liveWeather();
@@ -28,7 +30,7 @@ $(document).ready(function () {
     // Call fiveDay function to pull 5 day forecast info and append to HTML
     fiveDay();
 
-    // previousSearches function placeholder
+    // Call previousSearches function to append new city to the current list of cities
     previousSearches();
   });
 
@@ -45,6 +47,7 @@ $(document).ready(function () {
     // Empty any previous weather info content
     $("#weatherInfo").empty();
 
+    // AJAX call for current weather info
     var queryURL =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       city +
@@ -54,9 +57,10 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
       // Getting and converting the temp to Fahrenheit
       var tempF = (response.main.temp - 273.15) * 1.8 + 32;
+
+      // Getting the city's latitude and longitude for use in the AJAX call for the UV Index
       var lat = response.coord.lat;
       var lon = response.coord.lon;
 
@@ -81,7 +85,7 @@ $(document).ready(function () {
       h5.append(img1);
       div2.append(p1, p2, p3);
 
-      // AJAX call for the UV Index
+      // AJAX call for the current UV Index
       var queryURL2 =
         "http://api.openweathermap.org/data/2.5/uvi?lat=" +
         lat +
@@ -93,8 +97,6 @@ $(document).ready(function () {
         url: queryURL2,
         method: "GET",
       }).then(function (response) {
-        console.log(response);
-
         // Creating HTML elements to hold the UV Index
         var p4 = $("<p/>").text("UV Index: ");
         var span = $("<span/>").text(response.value).attr("id", "uvIndex");
@@ -122,6 +124,7 @@ $(document).ready(function () {
 
   // Function to get and display 5 day forecast
   function fiveDay() {
+    // AJAX call to get 5 day forecast info
     var queryURL =
       "https://api.openweathermap.org/data/2.5/forecast?q=" +
       city +
@@ -131,7 +134,7 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
+      // Setting day counter to always begin one day ahead
       var dayCount = 1;
 
       // Creating HTML elements to hold the 5 day forecast
@@ -157,6 +160,7 @@ $(document).ready(function () {
         if (dayIdentifier === "12:00:00") {
           // Getting the date for each day
           var daysDate = moment().add(dayCount, "days").format("L");
+
           // Getting and converting temperature to Fahrenheit
           var tempF = (response.list[i].main.temp - 273.15) * 1.8 + 32;
 
@@ -195,17 +199,19 @@ $(document).ready(function () {
     $(".cityUL").empty();
     // For loop to go through each city in the array and create a styled list item
     for (var i = 0; i < cityHistory.length; i++) {
+      // Creating new list item for each city
       var newListItem = $("<li/>")
         .addClass("list-group-item list-group-item-action cityListItem")
         .css("cursor", "pointer")
         .text(cityHistory[i]);
+
       // Event listener for clicking on a list item
       newListItem.on("click", function () {
-        console.log($(this).text());
         city = $(this).text();
         liveWeather();
         fiveDay();
       });
+
       // Append new items to the cityUL
       $(".cityUL").append(newListItem);
     }
