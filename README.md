@@ -6,6 +6,10 @@ This README has been generated to accompany the completed Weather Dashboard. The
 
 [Weather Dashboard](https://duncangw1.github.io/WeatherDashboard/)
 
+## Technologies Used
+
+- HTML, CSS, Bootstrap, JavaScript, jQuery, Moment.js, OpenWeather API, Font Awesome
+
 ## APIs Used
 
 [OpenWeather API](https://openweathermap.org/api)
